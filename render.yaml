@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: pha-usdt-analysis-bot
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: TELEGRAM_CHAT_ID
+        sync: false
+      - key: WEBHOOK_SECRET
+        sync: false
+      - key: SYMBOL
+        value: PHAUSDT
+      - key: TIMEZONE
+        value: Asia/Karachi
