@@ -1,0 +1,28 @@
+name: PHA USDT Daily Analysis
+
+on:
+  schedule:
+    - cron: "0 9 * * *"
+      timezone: "Asia/Karachi"
+  workflow_dispatch:
+
+jobs:
+  analysis:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install -r requirements.txt
+
+      - name: Send PHA analysis to Telegram
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          SYMBOL: PHAUSDT
+        run: python daily_bot.py
